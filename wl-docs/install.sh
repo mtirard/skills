@@ -38,12 +38,12 @@ with open(path) as f:
     cfg = json.load(f)
 
 required = [
-    "Bash(/opt/wl-docs/fetch-wl-docs.sh:*)",
-    "Bash(/opt/wl-docs/search-docs.wls:*)",
-    "Bash(wolframscript*)",
-    "Bash(/opt/wl-docs/bin/grep:*)",
-    "Bash(/opt/wl-docs/bin/awk:*)",
-    "Bash(/opt/wl-docs/bin/sed:*)",
+    "Bash(/opt/wl-docs/fetch-wl-docs.sh *)",
+    "Bash(/opt/wl-docs/search-docs.wls *)",
+    "Bash(wolframscript *)",
+    "Bash(/opt/wl-docs/bin/grep *)",
+    "Bash(/opt/wl-docs/bin/awk *)",
+    "Bash(/opt/wl-docs/bin/sed *)",
     "Read(/opt/wl-docs/**)",
 ]
 
