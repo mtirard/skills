@@ -1,13 +1,13 @@
 ---
 name: wl-docs
 description: >
-  Use this skill for any Wolfram Language (WL/Mathematica) task that requires
-  consulting reference documentation: looking up function syntax, options, calling
-  forms, code examples, related symbols, possible issues, or exploring what WL
-  functions exist for a given purpose. Triggers when writing or debugging WL code
-  and needing to check a function, or when asked to research WL documentation.
-  Provides access to locally cached WL reference docs with flexible shell-based
-  querying tools.
+  Use this skill for any Wolfram Language (WL/Mathematica) task requiring
+  documentation lookup. WL has 6000+ functions with non-obvious naming, so
+  key use cases include: discovering whether a function exists for a given
+  purpose, verifying a named function actually does what it sounds like, and
+  checking syntax, options, calling forms, return values, or related symbols.
+  Applies when writing, debugging, or explaining WL code where a symbol's
+  existence or exact behavior is uncertain.
 ---
 
 # WL Docs
