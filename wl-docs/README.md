@@ -4,19 +4,11 @@ Claude Code skill for querying locally cached Wolfram Language reference documen
 
 ## Install
 
-**Skill** — copy the skill directory into Claude Code's skills folder:
-
 ```bash
-cp -r wl-docs ~/.claude/skills/wl-docs
+bash wl-docs/install.sh
 ```
 
-**Fetch script** — install and make executable:
-
-```bash
-sudo mkdir -p /opt/wl-docs
-sudo cp wl-docs/fetch-wl-docs.sh /opt/wl-docs/fetch-wl-docs.sh
-sudo chmod +x /opt/wl-docs/fetch-wl-docs.sh
-```
+This installs the skill to `~/.claude/skills/wl-docs`, deploys runtime files to `/opt/wl-docs/`, and patches `~/.claude/settings.json` with the required permissions. Safe to re-run.
 
 ## Usage
 

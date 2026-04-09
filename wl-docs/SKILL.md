@@ -44,7 +44,7 @@ Don't read whole files into context. The docs are large; slice what you need.
 
 **Step 1 — Scan the section map first**
 ```bash
-grep "^## \|^### " /opt/wl-docs/ref/FormFunction.md
+/opt/wl-docs/bin/grep "^## \|^### " /opt/wl-docs/ref/FormFunction.md
 ```
 One line tells you the full structure. Decide which sections are worth reading
 before you read anything.
@@ -61,13 +61,13 @@ most information-dense part:
 FILE=/opt/wl-docs/ref/FormFunction.md
 
 # Compact summary of the function
-awk '/^summary:/{sub(/^summary: "/,""); sub(/"$/,""); print; exit}' "$FILE"
+/opt/wl-docs/bin/awk '/^summary:/{sub(/^summary: "/,""); sub(/"$/,""); print; exit}' "$FILE"
 
 # Related function names — the "fetch these next" list
-awk '/^related_functions:/,/^[a-z_]/' "$FILE" | grep "    title:" | sed 's/.*title: "//;s/"//'
+/opt/wl-docs/bin/awk '/^related_functions:/,/^[a-z_]/' "$FILE" | /opt/wl-docs/bin/grep "    title:" | /opt/wl-docs/bin/sed 's/.*title: "//;s/"//'
 
 # Search across all downloaded docs by keyword in summary
-grep -h "^summary:" /opt/wl-docs/ref/*.md | grep -i "cloud deploy"
+/opt/wl-docs/bin/grep -h "^summary:" /opt/wl-docs/ref/*.md | /opt/wl-docs/bin/grep -i "cloud deploy"
 ```
 
 **Step 3 — Read the syntax block**
@@ -81,25 +81,25 @@ of all calling signatures.
 FILE=/opt/wl-docs/ref/FormFunction.md
 
 # Syntax block (calling forms)
-awk '/^# /{found=1;next} found && /^## /{exit} found && NF' "$FILE"
+/opt/wl-docs/bin/awk '/^# /{found=1;next} found && /^## /{exit} found && NF' "$FILE"
 
 # All wl code examples
-awk '/^```wl/{p=1;next} p&&/^```/{p=0;print "---";next} p' "$FILE"
+/opt/wl-docs/bin/awk '/^```wl/{p=1;next} p&&/^```/{p=0;print "---";next} p' "$FILE"
 
 # One subsection only (e.g. Basic Examples)
-awk '/^### Basic Examples/,/^### /' "$FILE"
+/opt/wl-docs/bin/awk '/^### Basic Examples/,/^### /' "$FILE"
 
 # Details and Options
-awk '/^## Details/,/^## [^D]/' "$FILE"
+/opt/wl-docs/bin/awk '/^## Details/,/^## [^D]/' "$FILE"
 
 # Possible Issues
-awk '/^### Possible Issues/,/^##/' "$FILE"
+/opt/wl-docs/bin/awk '/^### Possible Issues/,/^##/' "$FILE"
 
 # Options table rows only
-awk '/^## Details/,/^## [^D]/' "$FILE" | grep "^|"
+/opt/wl-docs/bin/awk '/^## Details/,/^## [^D]/' "$FILE" | /opt/wl-docs/bin/grep "^|"
 
 # Which subsection does each code example live in?
-awk '/^### /{section=$0} /^```wl/{print section}' "$FILE"
+/opt/wl-docs/bin/awk '/^### /{section=$0} /^```wl/{print section}' "$FILE"
 ```
 
 These are starting points. The structure is regular enough that you can invent

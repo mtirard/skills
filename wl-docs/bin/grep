@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Logged wrapper for grep — pre-approved for /opt/wl-docs exploration
+printf '%s grep %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >> /opt/wl-docs/usage.log 2>/dev/null
+exec /usr/bin/grep "$@"
