@@ -20,6 +20,9 @@ sudo mkdir -p "$OPT_DEST/bin"
 sudo cp "$SKILL_DIR/fetch-wl-docs.sh" "$OPT_DEST/fetch-wl-docs.sh"
 sudo chmod +x "$OPT_DEST/fetch-wl-docs.sh"
 
+sudo cp "$SKILL_DIR/search-docs.wls" "$OPT_DEST/search-docs.wls"
+sudo chmod +x "$OPT_DEST/search-docs.wls"
+
 for cmd in grep awk sed; do
     sudo cp "$SKILL_DIR/bin/$cmd" "$OPT_DEST/bin/$cmd"
     sudo chmod +x "$OPT_DEST/bin/$cmd"
@@ -36,6 +39,8 @@ with open(path) as f:
 
 required = [
     "Bash(/opt/wl-docs/fetch-wl-docs.sh:*)",
+    "Bash(/opt/wl-docs/search-docs.wls:*)",
+    "Bash(wolframscript*)",
     "Bash(/opt/wl-docs/bin/grep:*)",
     "Bash(/opt/wl-docs/bin/awk:*)",
     "Bash(/opt/wl-docs/bin/sed:*)",

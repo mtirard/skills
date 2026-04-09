@@ -26,6 +26,21 @@ Refs follow the Wolfram documentation URL path convention. Common prefixes:
 
 A ref maps directly to a file: `/opt/wl-docs/{ref}.md`
 
+## Searching for docs — freeform discovery
+
+When you don't know the exact function name, use the documentation search index:
+
+```bash
+wolframscript -file /opt/wl-docs/search-docs.wls "query" [limit]
+```
+
+- `limit` is optional, defaults to 10
+- Accepts natural language: `"find shortest path in graph"`, `"reverse a string"`, `"read csv file"`
+- Returns JSON with `totalMatches`, and per result: `title`, `type`, `snippet`, `uri`
+- `uri` is the ref to pass to `fetch-wl-docs.sh` or read from `/opt/wl-docs/{uri}.md`
+
+Types in results: `Symbol`, `Guide`, `Tech Note`, `Workflow`, `ResourceFunction`, etc. Filter client-side if needed.
+
 ## Fetching docs
 
 ```bash
