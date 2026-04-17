@@ -47,11 +47,16 @@ Types in results: `Symbol`, `Guide`, `Tech Note`, `Workflow`, `ResourceFunction`
 /opt/wl-docs/fetch-wl-docs.sh ref/Plot ref/Map guide/CreatingFormsAndApps
 ```
 
-The script tries each ref as given, falls back to a corrected casing if it gets
-a 404 (e.g. `DataBin` → `Databin`), continues through any failures, and prints a
-summary report with file sizes and line counts. If a ref still fails both
-attempts, double-check the exact symbol name — WL names don't always follow
-obvious CamelCase conventions.
+**Safe to call unconditionally.** The script is idempotent: if a ref is already
+cached in `/opt/wl-docs/`, it returns immediately without hitting the network
+(marked `[cached]` in the summary). Don't pre-check with `ls` or `test -f` —
+just call it.
+
+For each uncached ref, the script tries the exact ref first, falls back to a
+corrected casing on 404 (e.g. `DataBin` → `Databin`), continues through any
+failures, and prints a summary with file sizes and line counts. If a ref still
+fails both attempts, double-check the exact symbol name — WL names don't always
+follow obvious CamelCase conventions.
 
 ## Exploring a doc — recommended workflow
 
