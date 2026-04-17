@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-# Logged wrapper for awk — pre-approved for /opt/wl-docs exploration
-printf '%s awk %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >> /opt/wl-docs/usage.log 2>/dev/null
+# Logged wrapper for awk — pre-approved for /opt/wl-docs exploration.
+# Only logs when a doc path is involved; pipeline stages and unrelated
+# awks pass through silently.
+if [[ "$*" == */opt/wl-docs/* ]]; then
+    printf '%s awk %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >> /opt/wl-docs/usage.log 2>/dev/null
+fi
 exec /usr/bin/awk "$@"

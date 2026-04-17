@@ -1,41 +1,36 @@
 #!/usr/bin/env bash
+# User-scope install: copies the skill to ~/.claude/skills and patches
+# ~/.claude/settings.json. No sudo required. Run as the user who uses
+# Claude Code (NOT a sudo/admin account).
 set -euo pipefail
+
+if [[ $EUID -eq 0 ]]; then
+    echo "error: install-user.sh must not run as root — it patches \$HOME/.claude." >&2
+    echo "run it as the Claude Code user. Use install-system.sh (as root) for /opt/wl-docs." >&2
+    exit 1
+fi
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILL_NAME="wl-docs"
 SKILLS_DEST="$HOME/.claude/skills/$SKILL_NAME"
-OPT_DEST="/opt/wl-docs"
 SETTINGS="$HOME/.claude/settings.json"
 
-# ── Skill files → ~/.claude/skills/wl-docs ────────────────────────────────────
 echo "Installing skill to $SKILLS_DEST ..."
 mkdir -p "$SKILLS_DEST"
 cp "$SKILL_DIR/SKILL.md" "$SKILLS_DEST/SKILL.md"
+rm -rf "$SKILLS_DEST/references"
 cp -r "$SKILL_DIR/references" "$SKILLS_DEST/references"
 
-# ── Runtime files → /opt/wl-docs ──────────────────────────────────────────────
-echo "Installing runtime files to $OPT_DEST ..."
-sudo mkdir -p "$OPT_DEST/bin"
-
-sudo cp "$SKILL_DIR/fetch-wl-docs.sh" "$OPT_DEST/fetch-wl-docs.sh"
-sudo chmod +x "$OPT_DEST/fetch-wl-docs.sh"
-
-sudo cp "$SKILL_DIR/search-docs.wls" "$OPT_DEST/search-docs.wls"
-sudo chmod +x "$OPT_DEST/search-docs.wls"
-
-for cmd in grep awk sed; do
-    sudo cp "$SKILL_DIR/bin/$cmd" "$OPT_DEST/bin/$cmd"
-    sudo chmod +x "$OPT_DEST/bin/$cmd"
-done
-
-# ── settings.json permissions ──────────────────────────────────────────────────
 echo "Patching $SETTINGS ..."
 python3 - "$SETTINGS" <<'EOF'
-import json, sys
+import json, sys, os
 
 path = sys.argv[1]
-with open(path) as f:
-    cfg = json.load(f)
+if os.path.exists(path):
+    with open(path) as f:
+        cfg = json.load(f)
+else:
+    cfg = {}
 
 required = [
     "Bash(/opt/wl-docs/fetch-wl-docs.sh *)",
@@ -54,6 +49,7 @@ for entry in required:
         allow.append(entry)
         added.append(entry)
 
+os.makedirs(os.path.dirname(path), exist_ok=True)
 with open(path, "w") as f:
     json.dump(cfg, f, indent=2)
     f.write("\n")
@@ -65,4 +61,5 @@ else:
     print("  (all entries already present)")
 EOF
 
-echo "Done."
+echo "Done. For runtime files under /opt/wl-docs, have your sudo account run:"
+echo "  sudo $SKILL_DIR/install-system.sh"
