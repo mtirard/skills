@@ -12,7 +12,7 @@ description: >
 
 # WL Docs
 
-Local WL reference documentation, fetched from `reference.devel.wolfram.com`.
+Local WL reference documentation, fetched from `reference.wolfram.com`.
 
 ## Location and ref format
 

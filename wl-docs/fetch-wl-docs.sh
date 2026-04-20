@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Fetch WL reference docs from reference.devel.wolfram.com
+# Fetch WL reference docs from reference.wolfram.com
 # Usage: fetch-wl-docs.sh ref/FormFunction ref/Databin guide/CreatingFormsAndApps
 
-BASE_URL="https://reference.devel.wolfram.com/language"
+BASE_URL="https://reference.wolfram.com/language"
 DOCS_DIR="/opt/wl-docs"
 
 if [[ $# -eq 0 ]]; then
